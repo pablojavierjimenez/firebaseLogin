@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>fb login with google acount</title>
+
+    <!-- ******* IMPORTO LA LIBRERIA DE FIREBASE ********* -->
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    
+    <!-- ******* Initialize Firebase ********* -->
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCP4AWjsN7xhIDBNqp5DZPvjypT6veihm4",
+            authDomain: "colorama-fadu.firebaseapp.com",
+            databaseURL: "https://colorama-fadu.firebaseio.com",
+            projectId: "colorama-fadu",
+            storageBucket: "colorama-fadu.appspot.com",
+            messagingSenderId: "921648506580"
+        };
+        firebase.initializeApp(config);
+        
+        /**
+         * guarda esta url porque lo que costo conseguir y entender como verga era que se hacia esto
+         * https://firebase.google.com/docs/auth/web/google-signin
+         */
+        // #_1
+        // Crea una instancia del objeto del proveedor de Google:
+        var provider = new firebase.auth.GoogleAuthProvider();
+
+        // #_2
+        // Opcional: Especifica los alcances adicionales de OAuth 2.0 
+        // que deseas solicitarle al proveedor de autenticación.
+        // Para agregar un alcance, invoca a addScope.
+        // DOCUMENTACION: ( https://developers.google.com/identity/protocols/googlescopes ).
+        // Por ejemplo:
+        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+
+        // #_3
+        // Opcional: Para ajustar el OAuth del proveedor según su idioma de preferencia 
+        // sin pasar de forma explícita los parámetros OAuth personalizados relevantes,
+        // actualiza el código de idioma en la instancia Auth antes de iniciar el flujo de OAuth.
+        // Por ejemplo:
+        firebase.auth().languageCode = 'es';
+        // To apply the default browser preference instead of explicitly setting it.
+        // firebase.auth().useDeviceLanguage();
+
+        // #_4
+        // Autentica con Firebase a través del objeto del proveedor de Google.
+        // Puedes pedirle a los usuarios que accedan con sus cuentas de Google 
+        // a través de una ventana emergente o redireccionándolos a la página de acceso.
+        // El método de redireccionamiento se prefiere en dispositivos móviles.
+        // Para ofrecer acceso con una ventana emergente, invoca signInWithPopup:
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                var token = result.credential.accessToken;
+                // The signed-in user info.
+                var user = result.user;
+                // ...
+            }).catch(function (error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+                // ...
+            });
+    </script>
+
+</head>
+<body>
+    
+</body>
+</html>
